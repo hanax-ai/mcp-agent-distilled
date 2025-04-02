@@ -1,10 +1,173 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- (Truncated for brevity; full content to be written dynamically) -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCP Agent Onboarding Kit</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; padding: 2rem; max-width: 900px; margin: auto; background: #f9f9f9; color: #333; }
+    h1, h2, h3 { color: #2c3e50; }
+    nav { background: #2c3e50; padding: 1rem; margin-bottom: 2rem; }
+    nav a { color: #ecf0f1; margin-right: 1rem; text-decoration: none; font-weight: bold; }
+    .section { margin-bottom: 3rem; }
+    code { background: #eee; padding: 2px 4px; border-radius: 4px; }
+    pre { background: #eee; padding: 1rem; overflow-x: auto; border-radius: 4px; }
+    .checklist li { list-style: none; padding-left: 1.2em; position: relative; }
+    .checklist li:before { content: "\2713"; position: absolute; left: 0; color: green; }
+    .tip { background: #e7f4e4; border-left: 4px solid #2ecc71; padding: 1rem; margin-top: 1rem; border-radius: 4px; }
+  </style>
 </head>
 <body>
-<p>This is a placeholder. The actual HTML will be written from the canvas.</p>
+  <h1>MCP Agent Onboarding Kit</h1>
+  <nav>
+    <a href="#overview">Overview</a>
+    <a href="#python">Install Python</a>
+    <a href="#vscode">Set Up VS Code</a>
+    <a href="#node">Install Node.js</a>
+    <a href="#project">Clone Project</a>
+    <a href="#run">Run Agent</a>
+    <a href="#extend">Extend Agent</a>
+  </nav>
+
+  <div class="section" id="overview">
+    <h2>Overview</h2>
+    <p>Welcome! This beginner-friendly guide will help you build a custom AI assistant (called an "agent") on your Windows 11 computer. You'll connect it to real tools—like web search or reading documents—by using something called the <strong>Model Context Protocol (MCP)</strong>. Don’t worry if you're new to coding—each step is explained with context, examples, and what to expect.</p>
+  </div>
+
+  <div class="section" id="python">
+    <h2>Install Python (Programming Language)</h2>
+    <p><strong>Why?</strong> Python is the language your AI agent is written in. It needs to be installed before running any scripts.</p>
+    <ol>
+      <li>Go to <a href="https://www.python.org" target="_blank">python.org</a> and click the yellow "Download Python 3.x.x" button.</li>
+      <li>When the file downloads, <strong>double-click it to open</strong>.</li>
+      <li><strong>IMPORTANT:</strong> Check the box that says <code>Add Python to PATH</code> at the bottom before clicking "Install Now".</li>
+      <li>Once installed, open Command Prompt:
+        <ul>
+          <li>Press <code>Windows Key + R</code>, type <code>cmd</code>, then press Enter</li>
+          <li>Type: <code>python --version</code> and <code>pip --version</code></li>
+        </ul>
+      </li>
+    </ol>
+    <pre><code>python --version
+pip --version</code></pre>
+    <div class="tip"><strong>Tip:</strong> If you see version numbers appear, it means Python was installed correctly.</div>
+  </div>
+
+  <div class="section" id="vscode">
+    <h2>Install and Customize Visual Studio Code (Code Editor)</h2>
+    <p><strong>Why?</strong> VS Code is like Microsoft Word for programmers. It helps you write, edit, and run code easily.</p>
+    <ol>
+      <li>Download from <a href="https://code.visualstudio.com" target="_blank">code.visualstudio.com</a> and run the installer.</li>
+      <li>During installation, check these boxes:
+        <ul>
+          <li><code>Add to PATH</code></li>
+          <li><code>Open with Code</code></li>
+        </ul>
+      </li>
+      <li>Launch VS Code and install extensions:
+        <pre><code>Press Ctrl + Shift + X → Search and install:
+- Python
+- Pylance
+- Jupyter
+- Pydantic
+- Prettier
+- GitLens</code></pre>
+      </li>
+    </ol>
+    <div class="tip">You can now write and run Python code directly in VS Code.</div>
+  </div>
+
+  <div class="section" id="node">
+    <h2>Install Node.js (JavaScript Runtime)</h2>
+    <p><strong>Why?</strong> Some of the tool servers your AI agent uses are written in JavaScript. Node.js helps run those.</p>
+    <ol>
+      <li>Visit <a href="https://nodejs.org" target="_blank">nodejs.org</a> and download the LTS version (it’s the stable one).</li>
+      <li>Open the downloaded installer and accept all the default options.</li>
+      <li>After installation, open Command Prompt and type:</li>
+    </ol>
+    <pre><code>node -v
+npm -v</code></pre>
+    <div class="tip">If both commands show version numbers, Node.js is ready to go.</div>
+  </div>
+
+  <div class="section" id="project">
+    <h2>Download the AI Agent Project Files</h2>
+    <p><strong>Why?</strong> These files contain the actual code for your custom AI agent.</p>
+    <ol>
+      <li>In VS Code, open the terminal: <code>Terminal > New Terminal</code></li>
+      <li>Run these commands:</li>
+    </ol>
+    <pre><code>git clone https://github.com/coleam00/ottomator-agents.git
+cd ottomator-agents/pydantic-ai-mcp-agent
+pip install pydantic-ai mcp-python-sdk</code></pre>
+    <p>Now create a file named <code>mcp_config.json</code> in the folder. This file connects to real-world tools:</p>
+    <pre><code>{
+  "mcpServers": {
+    "Brave Search": {
+      "command": "run_brave_server",
+      "args": ["--apikey", "YOUR_API_KEY"],
+      "env": {}
+    },
+    "Local File": {
+      "command": "run_file_server",
+      "args": [],
+      "env": {}
+    }
+  }
+}</code></pre>
+    <div class="tip">Get your API key from Brave or other providers and replace <code>YOUR_API_KEY</code> with it.</div>
+  </div>
+
+  <div class="section" id="run">
+    <h2>Run Your First AI Agent</h2>
+    <ol>
+      <li>In VS Code, open the file <code>pydantic_mcp_agent.py</code>.</li>
+      <li>Open the terminal and type:
+        <pre><code>python pydantic_mcp_agent.py</code></pre>
+      </li>
+      <li>When prompted, type something like:
+        <pre><code>search the web for Elon Musk's net worth in March 2025</code></pre>
+      </li>
+      <li>To stop the agent, press <code>Ctrl + C</code> in the terminal.</li>
+    </ol>
+    <div class="tip">You should see messages about connecting to Brave Search and fetching results. If not, check your config file or internet connection.</div>
+  </div>
+
+  <div class="section" id="extend">
+    <h2>Make Your Agent More Powerful (Optional)</h2>
+    <p><strong>Add a Web Interface:</strong> You can turn your agent into a website using FastAPI.</p>
+    <pre><code>pip install fastapi uvicorn</code></pre>
+    <p>Create a file called <code>main.py</code> with this code:</p>
+    <pre><code>from fastapi import FastAPI
+import subprocess
+
+app = FastAPI()
+
+@app.get("/")
+def home():
+    return {"message": "Welcome to your AI Agent!"}
+
+@app.get("/run-agent")
+def run_agent():
+    result = subprocess.run(["python", "pydantic_mcp_agent.py"], capture_output=True)
+    return {"output": result.stdout.decode()}</code></pre>
+    <p>To run it:</p>
+    <pre><code>uvicorn main:app --reload</code></pre>
+    <p>Then visit <a href="http://localhost:8000" target="_blank">http://localhost:8000</a> in your browser.</p>
+  </div>
+
+  <div class="section">
+    <h2>Final Checklist</h2>
+    <ul class="checklist">
+      <li>Installed Python and verified with <code>python --version</code></li>
+      <li>Installed and customized VS Code with recommended extensions</li>
+      <li>Installed Node.js and confirmed with <code>node -v</code></li>
+      <li>Downloaded project files and installed Python packages</li>
+      <li>Created and edited <code>mcp_config.json</code></li>
+      <li>Ran the AI agent and tested with a sample prompt</li>
+      <li>(Optional) Built a FastAPI web server</li>
+    </ul>
+    <div class="tip">You're all set! 🎉 You've created your first working AI assistant on Windows 11.</div>
+  </div>
 </body>
 </html>
